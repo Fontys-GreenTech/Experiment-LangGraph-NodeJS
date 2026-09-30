@@ -1,0 +1,24 @@
+{
+  "name": "experiment-langgraph-nodejs",
+  "type": "module",
+  "version": "1.0.0",
+  "description": "",
+  "main": "src/main.ts",
+  "scripts": {
+    "dev": "node src/main.ts --watch"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Fontys-GreenTech/Experiment-LangGraph-NodeJS.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Fontys-GreenTech/Experiment-LangGraph-NodeJS/issues"
+  },
+  "homepage": "https://github.com/Fontys-GreenTech/Experiment-LangGraph-NodeJS#readme",
+  "dependencies": {
+    "@langchain/core": "^1.2.13",
+    "@langchain/langgraph": "^1.4.18"
+  }
+}
