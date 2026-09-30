@@ -11,14 +11,19 @@ dotenv.config();
 const readCsvTool = tool(
     async ({ filePath }) => {
         try {
+            console.log("Reading CSV file: %o", filePath);
+
             const fileContent = await fs.readFile(filePath, "utf-8");
             const lines = fileContent.trim().split("\n");
 
             if (lines.length === 0) {
+                console.log("CSV file is empty!");
                 return JSON.stringify({ message: "The CSV file is empty." });
             }
 
             const headers = lines[0].split(",").map((h) => h.trim());
+            console.log("CSV headers: %o", headers);
+
             const rows = lines.slice(1).map((line) => {
                 const values = line.split(",").map((v) => v.trim());
                 const rowObject: Record<string, string> = {};
@@ -28,8 +33,12 @@ const readCsvTool = tool(
                 return rowObject;
             });
 
+            console.log("Found %o rows: %o", rows.length);
+            console.log("CSV tool finished");
+
             return JSON.stringify(rows, null, 2);
         } catch (error: any) {
+            console.error(`Failed to read CSV file: ${error.message}`);
             return JSON.stringify({ error: `Failed to read CSV file: ${error.message}` });
         }
     },
@@ -42,8 +51,48 @@ const readCsvTool = tool(
     }
 );
 
+const calculatorTool = tool(
+    async ({ expression }) => {
+        try {
+            // Strip any characters other than digits, math operators, decimals, spaces, and parentheses
+            const sanitized = expression.replace(/[^0-9+\-*/().%\s]/g, "");
+            console.log("Calculator tool sanitized: %o", sanitized);
+
+            if (!sanitized.trim()) {
+                console.log("Calculator tool: Invalid or empty expression.",);
+                return JSON.stringify({ error: "Invalid or empty expression." });
+            }
+
+            // Evaluate the sanitized arithmetic expression safely without arbitrary code execution
+            const calculate = new Function(`"use strict"; return (${sanitized});`);
+            const result = calculate();
+
+            console.log("Calculator tool result: %o", result);
+
+            if (typeof result !== "number" || Number.isNaN(result) || !Number.isFinite(result)) {
+                console.log("Calculator tool: Expression did not evaluate to a valid finite number.");
+                return JSON.stringify({ error: "Expression did not evaluate to a valid finite number." });
+            }
+
+            console.log("Calculator tool finished");
+
+            return JSON.stringify({ expression: sanitized, result });
+        } catch (error: any) {
+            console.error(`Failed to read CSV file: ${error.message}`);
+            return JSON.stringify({ error: `Failed to calculate: ${error.message}` });
+        }
+    },
+    {
+        name: "calculator",
+        description: "Evaluates standard arithmetic expressions (addition, subtraction, multiplication, division, parentheses).",
+        schema: z.object({
+            expression: z.string().describe("The mathematical expression to evaluate, e.g. '(145 * 12) / 3'."),
+        }),
+    }
+);
+
 export class MockGraphApp {
-    private tools = [readCsvTool];
+    private tools = [readCsvTool, calculatorTool];
 
     private state = new StateSchema({
         messages: MessagesValue,
@@ -93,7 +142,9 @@ export class MockGraphApp {
 const graphApp = new MockGraphApp();
 
 const startTime = performance.now();
-const result = await graphApp.invoke([{ role: "user", content: "What is inside the data.csv file?" }]);
+const result = await graphApp.invoke([
+    { role: "user", content: "What is inside the data.sc" },
+]);
 const endTime = performance.now();
 
 const durationMs = (endTime - startTime).toFixed(2);
