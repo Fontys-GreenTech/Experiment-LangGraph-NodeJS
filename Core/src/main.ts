@@ -1,15 +1,50 @@
 import { StateSchema, MessagesValue, type GraphNode, StateGraph, START, END } from "@langchain/langgraph";
 import { ChatGoogleGenerativeAI } from "@langchain/google-genai";
-
-import { GoogleGenAI } from '@google/genai';
+import { tool } from "@langchain/core/tools";
+import { z } from "zod";
+import fs from "node:fs/promises";
 
 import * as dotenv from 'dotenv';
+import {ToolNode} from "@langchain/langgraph/prebuilt";
 dotenv.config();
 
-import dns from 'node:dns';
-dns.setDefaultResultOrder('ipv4first');
+const readCsvTool = tool(
+    async ({ filePath }) => {
+        try {
+            const fileContent = await fs.readFile(filePath, "utf-8");
+            const lines = fileContent.trim().split("\n");
+
+            if (lines.length === 0) {
+                return JSON.stringify({ message: "The CSV file is empty." });
+            }
+
+            const headers = lines[0].split(",").map((h) => h.trim());
+            const rows = lines.slice(1).map((line) => {
+                const values = line.split(",").map((v) => v.trim());
+                const rowObject: Record<string, string> = {};
+                headers.forEach((header, index) => {
+                    rowObject[header] = values[index] !== undefined ? values[index] : "";
+                });
+                return rowObject;
+            });
+
+            return JSON.stringify(rows, null, 2);
+        } catch (error: any) {
+            return JSON.stringify({ error: `Failed to read CSV file: ${error.message}` });
+        }
+    },
+    {
+        name: "read_csv_file",
+        description: "Reads a CSV file from a specified file path, parses it, and returns the data as a JSON string.",
+        schema: z.object({
+            filePath: z.string().describe("The absolute or relative path to the CSV file."),
+        }),
+    }
+);
 
 export class MockGraphApp {
+    private tools = [readCsvTool];
+
     private state = new StateSchema({
         messages: MessagesValue,
     });
@@ -17,7 +52,7 @@ export class MockGraphApp {
     private model = new ChatGoogleGenerativeAI({
         model: "gemini-3.5-flash-lite",
         temperature: 0.7,
-    });
+    }).bindTools(this.tools);
 
     private compiledGraph = this.buildGraph();
 
@@ -27,10 +62,25 @@ export class MockGraphApp {
             return { messages: [response] };
         };
 
+        const shouldContinue = (state: any) => {
+            const lastMessage = state.messages[state.messages.length - 1];
+            if (lastMessage?.tool_calls?.length > 0) {
+                return "tools";
+            }
+            return END;
+        };
+
+        const toolNode = new ToolNode(this.tools);
+
         return new StateGraph(this.state)
             .addNode("gemini_node", callGemini)
+            .addNode("tools", toolNode)
             .addEdge(START, "gemini_node")
-            .addEdge("gemini_node", END)
+            .addConditionalEdges("gemini_node", shouldContinue, {
+                tools: "tools",
+                [END]: END,
+            })
+            .addEdge("tools", "gemini_node")
             .compile();
     }
 
@@ -43,7 +93,7 @@ export class MockGraphApp {
 const graphApp = new MockGraphApp();
 
 const startTime = performance.now();
-const result = await graphApp.invoke([{ role: "user", content: "Hello Gemini, tell me a quick joke!" }]);
+const result = await graphApp.invoke([{ role: "user", content: "What is inside the data.csv file?" }]);
 const endTime = performance.now();
 
 const durationMs = (endTime - startTime).toFixed(2);
