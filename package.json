@@ -3,9 +3,9 @@
   "type": "module",
   "version": "1.0.0",
   "description": "",
-  "main": "src/main.ts",
+  "main": "Core/src/main.ts",
   "scripts": {
-    "dev": "node src/main.ts --watch"
+    "dev": "node Core/src/main.ts --watch"
   },
   "repository": {
     "type": "git",
@@ -18,7 +18,12 @@
   },
   "homepage": "https://github.com/Fontys-GreenTech/Experiment-LangGraph-NodeJS#readme",
   "dependencies": {
+    "@google/genai": "^2.24.0",
     "@langchain/core": "^1.2.13",
-    "@langchain/langgraph": "^1.4.18"
+    "@langchain/google-genai": "^2.3.2",
+    "@langchain/langgraph": "^1.4.18",
+    "boxen": "^9.0.0",
+    "chalk": "^6.0.1",
+    "dotenv": "^18.0.4"
   }
 }
