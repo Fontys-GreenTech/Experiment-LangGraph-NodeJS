@@ -1,153 +1,128 @@
-import { StateSchema, MessagesValue, type GraphNode, StateGraph, START, END } from "@langchain/langgraph";
-import { ChatGoogleGenerativeAI } from "@langchain/google-genai";
-import { tool } from "@langchain/core/tools";
-import { z } from "zod";
-import fs from "node:fs/promises";
+import * as readline from "node:readline/promises";
+import { stdin as input, stdout as output } from "node:process";
+import boxen from "boxen";
+import chalk from "chalk";
+import { GraphApp } from "./GraphApp.ts";
 
-import * as dotenv from 'dotenv';
-import {ToolNode} from "@langchain/langgraph/prebuilt";
-dotenv.config();
+export function formatMarkdown(text: string): string {
+    return text
+        .replace(/(\*\*\*|___)([\s\S]+?)\1/g, (_, __, content) => chalk.bold.italic(content))
+        .replace(/(\*\*|__)([\s\S]+?)\1/g, (_, __, content) => chalk.bold(content))
+        .replace(/(\*|_)([\s\S]+?)\1/g, (_, __, content) => chalk.italic(content));
+}
 
-const readCsvTool = tool(
-    async ({ filePath }) => {
-        try {
-            console.log("Reading CSV file: %o", filePath);
-
-            const fileContent = await fs.readFile(filePath, "utf-8");
-            const lines = fileContent.trim().split("\n");
-
-            if (lines.length === 0) {
-                console.log("CSV file is empty!");
-                return JSON.stringify({ message: "The CSV file is empty." });
-            }
-
-            const headers = lines[0].split(",").map((h) => h.trim());
-            console.log("CSV headers: %o", headers);
-
-            const rows = lines.slice(1).map((line) => {
-                const values = line.split(",").map((v) => v.trim());
-                const rowObject: Record<string, string> = {};
-                headers.forEach((header, index) => {
-                    rowObject[header] = values[index] !== undefined ? values[index] : "";
-                });
-                return rowObject;
-            });
-
-            console.log("Found %o rows: %o", rows.length);
-            console.log("CSV tool finished");
-
-            return JSON.stringify(rows, null, 2);
-        } catch (error: any) {
-            console.error(`Failed to read CSV file: ${error.message}`);
-            return JSON.stringify({ error: `Failed to read CSV file: ${error.message}` });
-        }
-    },
-    {
-        name: "read_csv_file",
-        description: "Reads a CSV file from a specified file path, parses it, and returns the data as a JSON string.",
-        schema: z.object({
-            filePath: z.string().describe("The absolute or relative path to the CSV file."),
-        }),
-    }
-);
-
-const calculatorTool = tool(
-    async ({ expression }) => {
-        try {
-            // Strip any characters other than digits, math operators, decimals, spaces, and parentheses
-            const sanitized = expression.replace(/[^0-9+\-*/().%\s]/g, "");
-            console.log("Calculator tool sanitized: %o", sanitized);
-
-            if (!sanitized.trim()) {
-                console.log("Calculator tool: Invalid or empty expression.",);
-                return JSON.stringify({ error: "Invalid or empty expression." });
-            }
-
-            // Evaluate the sanitized arithmetic expression safely without arbitrary code execution
-            const calculate = new Function(`"use strict"; return (${sanitized});`);
-            const result = calculate();
-
-            console.log("Calculator tool result: %o", result);
-
-            if (typeof result !== "number" || Number.isNaN(result) || !Number.isFinite(result)) {
-                console.log("Calculator tool: Expression did not evaluate to a valid finite number.");
-                return JSON.stringify({ error: "Expression did not evaluate to a valid finite number." });
-            }
-
-            console.log("Calculator tool finished");
-
-            return JSON.stringify({ expression: sanitized, result });
-        } catch (error: any) {
-            console.error(`Failed to read CSV file: ${error.message}`);
-            return JSON.stringify({ error: `Failed to calculate: ${error.message}` });
-        }
-    },
-    {
-        name: "calculator",
-        description: "Evaluates standard arithmetic expressions (addition, subtraction, multiplication, division, parentheses).",
-        schema: z.object({
-            expression: z.string().describe("The mathematical expression to evaluate, e.g. '(145 * 12) / 3'."),
-        }),
-    }
-);
-
-export class MockGraphApp {
-    private tools = [readCsvTool, calculatorTool];
-
-    private state = new StateSchema({
-        messages: MessagesValue,
-    });
-
-    private model = new ChatGoogleGenerativeAI({
-        model: "gemini-3.5-flash-lite",
-        temperature: 0.7,
-    }).bindTools(this.tools);
-
-    private compiledGraph = this.buildGraph();
-
-    private buildGraph() {
-        const callGemini: GraphNode<typeof this.state> = async (state) => {
-            const response = await this.model.invoke(state.messages);
-            return { messages: [response] };
-        };
-
-        const shouldContinue = (state: any) => {
-            const lastMessage = state.messages[state.messages.length - 1];
-            if (lastMessage?.tool_calls?.length > 0) {
-                return "tools";
-            }
-            return END;
-        };
-
-        const toolNode = new ToolNode(this.tools);
-
-        return new StateGraph(this.state)
-            .addNode("gemini_node", callGemini)
-            .addNode("tools", toolNode)
-            .addEdge(START, "gemini_node")
-            .addConditionalEdges("gemini_node", shouldContinue, {
-                tools: "tools",
-                [END]: END,
+function formatMessageContent(content: unknown): string {
+    let text = "";
+    if (typeof content === "string") {
+        text = content;
+    } else if (Array.isArray(content)) {
+        text = content
+            .map((item) => {
+                if (typeof item === "string") return item;
+                if (item && typeof item === "object" && "text" in item && typeof item.text === "string") {
+                    return item.text;
+                }
+                return "";
             })
-            .addEdge("tools", "gemini_node")
-            .compile();
+            .filter(Boolean)
+            .join("\n");
+    } else if (content !== null && content !== undefined) {
+        text = String(content);
     }
+    return text ? formatMarkdown(text) : "";
+}
 
-    public async invoke(messages: Array<{ role: string; content: string }>) {
-        return await this.compiledGraph.invoke({ messages });
+async function startChatBot() {
+    const graphApp = new GraphApp();
+    const rl = readline.createInterface({ input, output });
+
+    const welcomeBox = boxen(
+        `${chalk.bold.cyan("Welcome to the LangGraph Chat Bot!")}\n\n` +
+        `${chalk.dim("• Type your message and press Enter.")}\n` +
+        `${chalk.dim("• Type")} ${chalk.yellow("exit")} ${chalk.dim("or")} ${chalk.yellow("quit")} ${chalk.dim("to end the conversation.")}`,
+        {
+            padding: 1,
+            margin: 1,
+            borderStyle: "round",
+            borderColor: "cyan",
+            title: chalk.bold.green(" Chat Bot "),
+            titleAlignment: "center",
+        }
+    );
+
+    console.log(welcomeBox);
+
+    const messages: any[] = [];
+
+    try {
+        while (true) {
+            const userInput = await rl.question(chalk.bold.green("You > "));
+            const trimmedInput = userInput.trim();
+
+            if (!trimmedInput) {
+                continue;
+            }
+
+            if (trimmedInput.toLowerCase() === "exit" || trimmedInput.toLowerCase() === "quit") {
+                const exitBox = boxen(chalk.yellow("Goodbye! Thanks for chatting."), {
+                    padding: { top: 0, bottom: 0, left: 1, right: 1 },
+                    margin: 1,
+                    borderStyle: "round",
+                    borderColor: "yellow",
+                });
+                console.log(exitBox);
+                break;
+            }
+
+            messages.push({ role: "user", content: trimmedInput });
+
+            console.log(chalk.gray("Thinking..."));
+
+            try {
+                const startTime = performance.now();
+                const result = await graphApp.invoke(messages);
+                const endTime = performance.now();
+                const durationMs = (endTime - startTime).toFixed(0);
+
+                if (result?.messages && Array.isArray(result.messages)) {
+                    messages.length = 0;
+                    messages.push(...result.messages);
+
+                    const lastMessage = result.messages[result.messages.length - 1];
+                    // @ts-ignore
+                    const rawContent = lastMessage?.kwargs?.content ?? lastMessage?.content ?? "";
+                    const responseText = formatMessageContent(rawContent) || chalk.dim("(No response content)");
+
+                    const responseBox = boxen(responseText, {
+                        padding: 1,
+                        margin: { top: 1, bottom: 1, left: 0, right: 0 },
+                        borderStyle: "round",
+                        borderColor: "magenta",
+                        title: chalk.bold.magenta(" Assistant ") + chalk.dim(`(${durationMs}ms)`),
+                        titleAlignment: "left",
+                    });
+
+                    console.log(responseBox);
+                } else {
+                    console.log(chalk.red("Unexpected response format received from assistant."));
+                }
+            } catch (err: any) {
+                const errorBox = boxen(
+                    chalk.red(`Error: ${err?.message || "An unexpected error occurred."}`),
+                    {
+                        padding: 1,
+                        margin: 1,
+                        borderStyle: "double",
+                        borderColor: "red",
+                        title: chalk.bold.red(" Error "),
+                    }
+                );
+                console.error(errorBox);
+            }
+        }
+    } finally {
+        rl.close();
     }
 }
 
-// Usage Example with Timing
-const graphApp = new MockGraphApp();
-
-const startTime = performance.now();
-const result = await graphApp.invoke([
-    { role: "user", content: "What is inside the data.sc" },
-]);
-const endTime = performance.now();
-
-const durationMs = (endTime - startTime).toFixed(2);
-
-console.log("Result:", result);
-console.log(`Request took ${durationMs} ms`);
+await startChatBot();
