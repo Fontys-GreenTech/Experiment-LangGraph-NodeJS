@@ -382,7 +382,7 @@ TXN-1005,2026-09-03,Evan Wright,Office Supplies,Notebook Pack (5pk),4,12.00,48.0
                 async () => {
                     const mockModel = MockLLMFactory.createSimpleTextMock(["Simple static answer"]);
                     const app = new GraphApp(0, mockModel);
-                    return app.invoke([new HumanMessage("Hello LangGraph")]);
+                    return app.invoke([new HumanMessage("Hello LangGraph, How are you doing?")]);
                 },
                 5
             );
