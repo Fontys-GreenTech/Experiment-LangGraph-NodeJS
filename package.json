@@ -5,7 +5,9 @@
   "description": "",
   "main": "Core/src/main.ts",
   "scripts": {
-    "dev": "node Core/src/main.ts --watch"
+    "dev": "node Core/src/main.ts --watch",
+    "test": "node --test Test/*.test.ts",
+    "benchmark": "node Test/benchmark/runner.ts"
   },
   "repository": {
     "type": "git",

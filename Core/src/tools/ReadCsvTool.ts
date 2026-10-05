@@ -4,7 +4,7 @@ import fs from "node:fs/promises";
 import { toolInfoLine, toolErrorLine, toolTimeLine } from "../logger.ts";
 
 export class ReadCsvTool{
-    public static tool(){
+    public static tool(fileReader?: (filePath: string) => Promise<string> | string){
         return tool(
             async ({ filePath }) => {
                 const startTime = performance.now();
@@ -12,10 +12,12 @@ export class ReadCsvTool{
                     toolInfoLine("ReadCsvTool", "Running Read CSV Tool");
                     toolInfoLine("ReadCsvTool", "Reading CSV file: ", filePath);
 
-                    const fileContent = await fs.readFile(filePath, "utf-8");
+                    const fileContent = fileReader
+                        ? await fileReader(filePath)
+                        : await fs.readFile(filePath, "utf-8");
                     const lines = fileContent.trim().split("\n");
 
-                    if (lines.length === 0) {
+                    if (lines.length === 0 || (lines.length === 1 && lines[0] === "")) {
                         toolErrorLine("ReadCsvTool", "CSV file is empty!");
                         const durationMs = (performance.now() - startTime).toFixed(2);
                         toolTimeLine("ReadCsvTool", `Execution time: ${durationMs}ms`);
@@ -55,5 +57,9 @@ export class ReadCsvTool{
                 }),
             }
         );
+    }
+
+    public static mockTool(mockContent: string = "id,name,value\n1,Alpha,100\n2,Beta,200\n3,Gamma,300") {
+        return ReadCsvTool.tool(async () => mockContent);
     }
 }

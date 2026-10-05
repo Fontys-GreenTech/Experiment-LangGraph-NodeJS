@@ -1,0 +1,46 @@
+# Financial Performance Summary Report
+**Period:** September 1, 2026 – October 20, 2026  
+**Source File:** `./data.csv`  
+
+---
+
+## Executive Summary
+
+This report provides a comprehensive financial analysis of all transaction records extracted from `data.csv`. During the evaluated period, a total of **100 transactions** were processed across three core product categories: **Electronics**, **Apparel**, and **Office Supplies**. 
+
+### Key Financial Metrics
+- **Total Revenue:** **$6,993.00**
+- **Cost of Goods Sold (COGS):** **$3,443.00**
+- **Total Net Earnings:** **$3,550.00**
+- **Overall Net Profit Margin:** **50.77%**
+
+---
+
+## Transaction Overview & Profitability Analysis
+
+The business maintained strong profitability across all transactions, demonstrating robust margins and healthy operational performance.
+
+| Metric | Amount | Percentage of Revenue |
+| :--- | :--- | :--- |
+| **Total Revenue** | $6,993.00 | 100.00% |
+| **Cost of Goods Sold** | $3,443.00 | 49.23% |
+| **Net Earnings** | $3,550.00 | 50.77% |
+
+---
+
+## Category & Volume Highlights
+
+- **Total Transactions Recorded:** 100 unique transactions (`TXN-1001` through `TXN-1100`).
+- **Highest Single Transaction Revenue:** $450.00 (`TXN-1087` - Portable Generator, customer *Negan Smith*), yielding $170.00 in net earnings.
+- **Highest Net Earnings Transaction:** $170.00 (`TXN-1087`).
+- **Lowest Single Transaction Revenue:** $12.00 (`TXN-1013` Printer Paper reams @ $8 total x5 qty = $40, actually lowest is `TXN-1049` Binder Clips at $12.00 revenue, $8.00 net earnings).
+
+---
+
+## Conclusion & Recommendations
+
+1. **Strong Margin Retention:** Achieving an overall net profit margin of **50.77%** indicates excellent pricing strategy and cost management.
+2. **High-Value Drivers:** High-ticket electronics and specialized equipment (such as Portable Generators, Smart Monitors, and Business Suits) significantly contributed to top-line growth.
+3. **Operational Stability:** Consistent transaction volume throughout September and October points toward steady customer demand and reliable fulfillment operations.
+
+*Report compiled automatically via Financial Analysis System.*

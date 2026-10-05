@@ -5,22 +5,32 @@ import { ToolNode } from "@langchain/langgraph/prebuilt";
 import { ReadCsvTool } from "./tools/ReadCsvTool.ts";
 import { CalculatorTool } from "./tools/CalculatorTool.ts";
 import { ArrayCalcTool } from "./tools/ArrayCalcTool.ts";
+import { MarkdownToPdf } from "./tools/MarkdownToPdf.ts";
 
 dotenv.config();
 
 export class GraphApp {
-    private tools = [ReadCsvTool.tool(), CalculatorTool.tool(), ArrayCalcTool.tool()];
+    private tools: any[];
 
     private state = new StateSchema({
         messages: MessagesValue,
     });
 
-    private model = new ChatGoogleGenerativeAI({
-        model: "gemini-3.5-flash-lite",
-        temperature: 0.7,
-    }).bindTools(this.tools);
+    private model: any;
+    private compiledGraph: any;
 
-    private compiledGraph = this.buildGraph();
+    constructor(temperature: number = 0.7, model?: any, tools?: any[]) {
+        this.tools = tools ?? [ReadCsvTool.tool(), CalculatorTool.tool(), ArrayCalcTool.tool(), MarkdownToPdf.tool()];
+        if (model) {
+            this.model = typeof model.bindTools === "function" ? model.bindTools(this.tools) : model;
+        } else {
+            this.model = new ChatGoogleGenerativeAI({
+                model: "gemini-3.5-flash-lite",
+                temperature: temperature,
+            }).bindTools(this.tools);
+        }
+        this.compiledGraph = this.buildGraph();
+    }
 
     private buildGraph() {
         const callGemini: GraphNode<typeof this.state> = async (state) => {
