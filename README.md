@@ -1,0 +1,1 @@
+Sum the quantity of each 2 rows of data.csv, 1+2, 3+4, etc..

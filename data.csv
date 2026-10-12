@@ -1,0 +1,101 @@
+transaction_id,date,customer_name,product_category,item_description,quantity,unit_price,total_revenue,cost_of_goods,net_earnings
+TXN-1001,2026-09-01,Alice Smith,Electronics,Wireless Mouse,2,25.00,50.00,20.00,30.00
+TXN-1002,2026-09-01,Bob Jones,Office Supplies,Ergonomic Chair,1,180.00,180.00,90.00,90.00
+TXN-1003,2026-09-02,Charlie Brown,Electronics,USB-C Hub,3,35.00,105.00,45.00,60.00
+TXN-1004,2026-09-02,Diana Prince,Apparel,Branded Hoodie,1,45.00,45.00,15.00,30.00
+TXN-1005,2026-09-03,Evan Wright,Office Supplies,Notebook Pack (5pk),4,12.00,48.00,16.00,32.00
+TXN-1006,2026-09-03,Fiona Gallagher,Electronics,Mechanical Keyboard,1,120.00,120.00,65.00,55.00
+TXN-1007,2026-09-04,George Clark,Apparel,Canvas Tote Bag,2,15.00,30.00,8.00,22.00
+TXN-1008,2026-09-04,Hannah Abbott,Office Supplies,Desk Organizer,1,28.00,28.00,10.00,18.00
+TXN-1009,2026-09-05,Ian Malcolm,Electronics,Portable SSD 1TB,1,95.00,95.00,60.00,35.00
+TXN-1010,2026-09-05,Julia Roberts,Apparel,Baseball Cap,3,20.00,60.00,18.00,42.00
+TXN-1011,2026-09-06,Kevin Bacon,Office Supplies,Gel Pens (12pk),2,14.00,28.00,10.00,18.00
+TXN-1012,2026-09-06,Laura Croft,Electronics,Webcam 1080p,1,60.00,60.00,35.00,25.00
+TXN-1013,2026-09-07,Michael Scott,Office Supplies,Printer Paper (Ream),5,8.00,40.00,20.00,20.00
+TXN-1014,2026-09-07,Nancy Wheeler,Electronics,Bluetooth Speaker,2,45.00,90.00,40.00,50.00
+TXN-1015,2026-09-08,Oscar Martinez,Apparel,Winter Jacket,1,150.00,150.00,70.00,80.00
+TXN-1016,2026-09-08,Pam Beesly,Office Supplies,Sticky Notes (Pack),6,4.00,24.00,9.00,15.00
+TXN-1017,2026-09-09,Quentin Tarantino,Electronics,HDMI Cable 2m,4,15.00,60.00,20.00,40.00
+TXN-1018,2026-09-09,Rachel Green,Apparel,Scarf,2,22.00,44.00,14.00,30.00
+TXN-1019,2026-09-10,Steve Rogers,Electronics,Power Bank 20000mAh,1,50.00,50.00,25.00,25.00
+TXN-1020,2026-09-10,Tony Stark,Electronics,Smart Monitor 27",1,320.00,320.00,200.00,120.00
+TXN-1021,2026-09-11,Ursula Buffay,Office Supplies,Desk Mat,2,25.00,50.00,18.00,32.00
+TXN-1022,2026-09-11,Victor Vance,Apparel,Graphic T-Shirt,3,25.00,75.00,24.00,51.00
+TXN-1023,2026-09-12,Wanda Maximoff,Electronics,Ring Light,1,40.00,40.00,18.00,22.00
+TXN-1024,2026-09-12,Xander Cage,Office Supplies,Whiteboard Markers,4,9.00,36.00,12.00,24.00
+TXN-1025,2026-09-13,Yara Greyjoy,Electronics,Noise-Canceling Headphones,1,200.00,200.00,120.00,80.00
+TXN-1026,2026-09-13,Zack Snyder,Apparel,Zip-up Hoodie,2,55.00,110.00,40.00,70.00
+TXN-1027,2026-09-14,Aaron Burr,Office Supplies,Stapler Heavy Duty,1,18.00,18.00,7.00,11.00
+TXN-1028,2026-09-14,Bella Swan,Electronics,Wireless Charger,2,30.00,60.00,24.00,36.00
+TXN-1029,2026-09-15,Clark Kent,Office Supplies,File Folders (25pk),3,15.00,45.00,18.00,27.00
+TXN-1030,2026-09-15,Daphne Blake,Electronics,Stylus Pen,2,25.00,50.00,20.00,30.00
+TXN-1031,2026-09-16,Elijah Wood,Apparel,Beanie,3,18.00,54.00,18.00,36.00
+TXN-1032,2026-09-16,Frodo Baggins,Electronics,MicroSD Card 128GB,2,22.00,44.00,18.00,26.00
+TXN-1033,2026-09-17,Gandalf Grey,Office Supplies,Desk Lamp,1,45.00,45.00,20.00,25.00
+TXN-1034,2026-09-17,Hermione Granger,Electronics,E-Reader Cover,1,30.00,30.00,10.00,20.00
+TXN-1035,2026-09-18,Indiana Jones,Apparel,Leather Belt,1,40.00,40.00,16.00,24.00
+TXN-1036,2026-09-18,John Wick,Office Supplies,Shredder,1,75.00,75.00,40.00,35.00
+TXN-1037,2026-09-19,Katniss Everdeen,Electronics,Action Camera,1,150.00,150.00,90.00,60.00
+TXN-1038,2026-09-19,Luke Skywalker,Apparel,Socks (5-pack),3,15.00,45.00,12.00,33.00
+TXN-1039,2026-09-20,Marty McFly,Electronics,Portable Monitor,1,130.00,130.00,80.00,50.00
+TXN-1040,2026-09-20,Neo Anderson,Office Supplies,Calculator Scientific,2,20.00,40.00,16.00,24.00
+TXN-1041,2026-09-21,Obi-Wan Kenobi,Electronics,USB Flash Drive 64GB,4,12.00,48.00,16.00,32.00
+TXN-1042,2026-09-21,Peter Parker,Apparel,Sweatpants,2,35.00,70.00,26.00,44.00
+TXN-1043,2026-09-22,Quinn Mallory,Office Supplies,Scissors (3pk),2,10.00,20.00,8.00,12.00
+TXN-1044,2026-09-22,Ripley Ellen,Electronics,External Hard Drive 2TB,1,85.00,85.00,50.00,35.00
+TXN-1045,2026-09-23,Sam Winchester,Apparel,Polo Shirt,2,30.00,60.00,22.00,38.00
+TXN-1046,2026-09-23,Dean Winchester,Office Supplies,Correction Tape,5,5.00,25.00,10.00,15.00
+TXN-1047,2026-09-24,Tyrion Lannister,Electronics,Mini Projector,1,110.00,110.00,65.00,45.00
+TXN-1048,2026-09-24,Jon Snow,Apparel,Winter Gloves,2,25.00,50.00,20.00,30.00
+TXN-1049,2026-09-25,Arya Stark,Office Supplies,Binder Clips (100pk),1,12.00,12.00,4.00,8.00
+TXN-1050,2026-09-25,Sansa Stark,Electronics,Phone Stand,3,15.00,45.00,15.00,30.00
+TXN-1051,2026-09-26,Bruce Wayne,Electronics,Server Rack Shelf,2,55.00,110.00,60.00,50.00
+TXN-1052,2026-09-26,Clark Kent,Apparel,Tie Silk,1,30.00,30.00,10.00,20.00
+TXN-1053,2026-09-27,Barry Allen,Office Supplies,Highlighters (8pk),3,9.00,27.00,9.00,18.00
+TXN-1054,2026-09-27,Hal Jordan,Electronics,Gaming Headset,1,80.00,80.00,45.00,35.00
+TXN-1055,2026-09-28,Arthur Curry,Apparel,Board Shorts,2,40.00,80.00,30.00,50.00
+TXN-1056,2026-09-28,Victor Stone,Office Supplies,Desk Calendar,1,14.00,14.00,5.00,9.00
+TXN-1057,2026-09-29,Billy Butcher,Electronics,Smart Bulb Kit,2,35.00,70.00,30.00,40.00
+TXN-1058,2026-09-29,Hughie Campbell,Apparel,Rain Jacket,1,65.00,65.00,25.00,40.00
+TXN-1059,2026-09-30,Annie January,Office Supplies,Cork Board,1,22.00,22.00,9.00,13.00
+TXN-1060,2026-09-30,Frenchie Kim,Electronics,Soldering Iron Kit,1,50.00,50.00,22.00,28.00
+TXN-1061,2026-10-01,Mother's Milk,Apparel,Apron,2,18.00,36.00,12.00,24.00
+TXN-1062,2026-10-01,Homelander John,Office Supplies,Executive Pen Set,1,45.00,45.00,15.00,30.00
+TXN-1063,2026-10-02,Queen Maeve,Electronics,Wireless Earbuds,1,90.00,90.00,50.00,40.00
+TXN-1064,2026-10-02,A-Train Reggie,Apparel,Running Shorts,2,28.00,56.00,20.00,36.00
+TXN-1065,2026-10-03,The Deep,Office Supplies,Storage Bins (3pk),2,32.00,64.00,28.00,36.00
+TXN-1066,2026-10-03,Starlight Erin,Electronics,Ring Light Mini,1,25.00,25.00,10.00,15.00
+TXN-1067,2026-10-04,Walter White,Office Supplies,Laboratory Notebook,4,15.00,60.00,20.00,40.00
+TXN-1068,2026-10-04,Jesse Pinkman,Electronics,Bluetooth Adapter,3,15.00,45.00,18.00,27.00
+TXN-1069,2026-10-05,Saul Goodman,Apparel,Business Suit,1,250.00,250.00,120.00,130.00
+TXN-1070,2026-10-05,Gustavo Fring,Office Supplies,Briefcase Leather,1,120.00,120.00,60.00,60.00
+TXN-1071,2026-10-06,Mike Ehrmantraut,Electronics,Dash Cam,1,70.00,70.00,35.00,35.00
+TXN-1072,2026-10-06,Hank Schrader,Apparel,Baseball Jersey,1,50.00,50.00,20.00,30.00
+TXN-1073,2026-10-07,Skyler White,Office Supplies,Planner Book,2,18.00,36.00,12.00,24.00
+TXN-1074,2026-10-07,Marie Schrader,Electronics,Photo Printer,1,110.00,110.00,70.00,40.00
+TXN-1075,2026-10-08,Lalo Salamanca,Apparel,Button-Down Shirt,2,45.00,90.00,34.00,56.00
+TXN-1076,2026-10-08,Tuco Salamanca,Office Supplies,Rubber Bands (Pack),5,3.00,15.00,5.00,10.00
+TXN-1077,2026-10-09,Howard Hamlin,Electronics,Laser Pointer,2,22.00,44.00,16.00,28.00
+TXN-1078,2026-10-09,Chuck McGill,Office Supplies,Typewriter Ribbon,3,12.00,36.00,15.00,21.00
+TXN-1079,2026-10-10,Kim Wexler,Apparel,Cardigan,1,55.00,55.00,22.00,33.00
+TXN-1080,2026-10-10,Nacho Varga,Electronics,Multi-Tool Pocket,2,30.00,60.00,24.00,36.00
+TXN-1081,2026-10-11,Rick Grimes,Apparel,Sherpa Jacket,1,90.00,90.00,40.00,50.00
+TXN-1082,2026-10-11,Daryl Dixon,Electronics,Walkie Talkie Pair,1,65.00,65.00,30.00,35.00
+TXN-1083,2026-10-12,Michonne Hawthorne,Office Supplies,Journal Hardcover,2,16.00,32.00,10.00,22.00
+TXN-1084,2026-10-12,Glenn Rhee,Electronics,Fitness Tracker,1,50.00,50.00,25.00,25.00
+TXN-1085,2026-10-13,Maggie Greene,Apparel,Scarf Knit,2,20.00,40.00,14.00,26.00
+TXN-1086,2026-10-13,Carol Peletier,Office Supplies,Envelopes (100pk),1,11.00,11.00,4.00,7.00
+TXN-1087,2026-10-14,Negan Smith,Electronics,Portable Generator,1,450.00,450.00,280.00,170.00
+TXN-1088,2026-10-14,Ezekiel Sutton,Apparel,Vest Classic,1,60.00,60.00,25.00,35.00
+TXN-1089,2026-10-15,Eugene Porter,Electronics,Soldering Station,1,85.00,85.00,45.00,40.00
+TXN-1090,2026-10-15,Rosita Espinosa,Office Supplies,Mesh Desk Sorter,1,20.00,20.00,8.00,12.00
+TXN-1091,2026-10-16,Joel Miller,Apparel,Flannel Shirt,2,45.00,90.00,36.00,54.00
+TXN-1092,2026-10-16,Ellie Williams,Electronics,Handheld Console,1,220.00,220.00,140.00,80.00
+TXN-1093,2026-10-17,Tommy Miller,Office Supplies,Tape Dispenser,2,12.00,24.00,8.00,16.00
+TXN-1094,2026-10-17,Abby Anderson,Electronics,Gym Earbuds,1,75.00,75.00,35.00,40.00
+TXN-1095,2026-10-18,Dina Taylor,Apparel,Yoga Pants,2,38.00,76.00,28.00,48.00
+TXN-1096,2026-10-18,Jesse Anderson,Office Supplies,Permanent Markers,4,8.00,32.00,12.00,20.00
+TXN-1097,2026-10-19,Bill Overdue,Electronics,Surge Protector,3,25.00,75.00,30.00,45.00
+TXN-1098,2026-10-19,Tess Servopoulos,Apparel,Canvas Backpack,1,50.00,50.00,20.00,30.00
+TXN-1099,2026-10-20,Frank Miller,Office Supplies,Index Cards (500pk),2,7.00,14.00,5.00,9.00
+TXN-1100,2026-10-20,Maria Rodriguez,Electronics,USB Hub 7-Port,1,40.00,40.00,18.00,22.00
