@@ -4,10 +4,17 @@
   "version": "1.0.0",
   "description": "",
   "main": "Core/src/main.ts",
+  "engines": {
+    "node": ">=24"
+  },
+  "imports": {
+    "#tools/*": "./Core/src/tools/*"
+  },
   "scripts": {
-    "dev": "node Core/src/main.ts --watch",
+    "dev": "node --watch Core/src/main.ts",
     "test": "node --test Test/*.test.ts",
-    "benchmark": "node Test/benchmark/runner.ts"
+    "benchmark": "node Test/benchmark/runner.ts",
+    "typecheck": "tsc"
   },
   "repository": {
     "type": "git",
@@ -29,6 +36,7 @@
     "zod": "^4.6.5"
   },
   "devDependencies": {
-    "@types/node": "^26.6.4"
+    "@types/node": "^26.6.4",
+    "typescript": "^7.0.2"
   }
 }
